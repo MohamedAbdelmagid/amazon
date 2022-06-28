@@ -10,6 +10,7 @@ const ownerRoutes = require('./routes/owner')
 
 dotenv.config()
 const app = express()
+const port = process.env.PORT || 3000
 
 // Middlewares
 app.use(morgan('dev'))
@@ -26,10 +27,11 @@ mongoose.connect(process.env.LOCAL_DB_URI, { useUnifiedTopology: false }, err =>
   else console.log('MongoDB is connected..')
 })
 
-app.listen(3000, err => {
+
+app.listen(port, err => {
   if (err) {
     console.log('err :>> ', err)
   } else {
-    console.log('Server is listening at port 3000 ...')
+    console.log(`Server is listening at port ${port}...`)
   }
 })
