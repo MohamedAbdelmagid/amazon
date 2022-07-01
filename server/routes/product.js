@@ -11,6 +11,9 @@ router.post('/products', async (req, res) => {
     product.description = req.body.description
     product.photo = req.body.photo
     product.stockQuantity = req.body.stockQuantity
+    product.price = req.body.price
+    product.owner = req.body.owner
+    product.category = req.body.category
 
     await product.save()
     res.json({ success: true, message: 'New product is added !'})
@@ -24,6 +27,7 @@ router.post('/products', async (req, res) => {
 router.get('/products', async (req, res) => {
   try {
     const products = await Product.find()
+    console.log('products.length :>> ', products.length)
 
     res.json({ success: true, products })
 
@@ -47,19 +51,22 @@ router.get('/products/:id', async (req, res) => {
 // Update a particular product endpoint
 router.put('/products/:id', async (req, res) => {
   try {
-    const product = await Product.findByIdAndUpdate(
+    const product = await Product.findOneAndUpdate(
       { _id: req.params.id },
       {
         $set: {
           title: req.body.title,
           price: req.body.price,
-          category: req.body.categoryID,
+          category: req.body.category,
           description: req.body.description,
           stockQuantity: req.body.stockQuantity,
-          owner: req.body.ownerID,
+          owner: req.body.owner,
         }
       },
-      { upsert: true }
+      {
+        upsert: true, //  inserts a new document if no document matches 
+        new: true //  return the new updated document
+      }
     )
 
     res.json({ success: true, updated: product })
