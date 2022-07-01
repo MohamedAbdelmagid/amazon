@@ -10,8 +10,8 @@ router.post('/owners', async (req, res) => {
     owner.name = req.body.name
     owner.about = req.body.about
 
-    await owner.save()
-    res.json({ success: true, message: 'New owner is added !'})
+    const newOwner = await owner.save()
+    res.json({ success: true, newOwner })
     
   } catch (error) {
     res.status(500).json({ success: false, message: error.message })
