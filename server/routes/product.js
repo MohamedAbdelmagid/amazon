@@ -61,6 +61,7 @@ router.put('/products/:id', async (req, res) => {
           description: req.body.description,
           stockQuantity: req.body.stockQuantity,
           owner: req.body.owner,
+          photo: req.body.photo,
         }
       },
       {
