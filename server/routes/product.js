@@ -26,8 +26,7 @@ router.post('/products', async (req, res) => {
 // Get all products endpoint
 router.get('/products', async (req, res) => {
   try {
-    const products = await Product.find()
-    console.log('products.length :>> ', products.length)
+    const products = await Product.find().populate('owner category').exec()
 
     res.json({ success: true, products })
 
@@ -39,7 +38,7 @@ router.get('/products', async (req, res) => {
 // Get a particular product endpoint
 router.get('/products/:id', async (req, res) => {
   try {
-    const product = await Product.findOne({ _id: req.params.id })
+    const product = await Product.findOne({ _id: req.params.id }).populate('owner category').exec()
 
     res.json({ success: true, product })
 
