@@ -2,6 +2,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/user')
+const verifyToken = require('../middlewares/verify-token')
 
 
 // Sign up route
@@ -29,6 +30,22 @@ router.post('/auth/signup', async (req, res) => {
     } catch (error) {
       res.status(500).json({ success: false, message: error.message })
     }
+  }
+})
+
+// Account route
+router.get('/auth/user', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.decoded._id })
+    if (user) {
+      res.json({
+        success: true,
+        user
+      })
+    }
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message })
   }
 })
 
