@@ -8,6 +8,7 @@ const cors = require('cors')
 const productRoutes = require('./routes/product')
 const categoryRoutes = require('./routes/category')
 const ownerRoutes = require('./routes/owner')
+const authRoutes = require('./routes/auth')
 
 dotenv.config()
 const app = express()
@@ -23,6 +24,7 @@ app.use(parser.urlencoded({ extended: false }))
 app.use('/api', productRoutes)
 app.use('/api', categoryRoutes)
 app.use('/api', ownerRoutes)
+app.use('/api', authRoutes)
 
 mongoose.connect(process.env.LOCAL_DB_URI, { useUnifiedTopology: false }, err => {
   if (err) console.log(err)
