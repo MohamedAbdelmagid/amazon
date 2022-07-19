@@ -49,5 +49,34 @@ router.get('/auth/user', verifyToken, async (req, res) => {
   }
 })
 
+// Login route
+router.post('/auth/login', async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email })
+    if (!user) {
+      res.status(403).json({
+        success: false,
+        message: 'Authentication failed, User not found !!'
+      })
+    } else {
+      if (user.comparePassword(req.body.password)) {
+        const token = jwt.sign(user.toJSON(), process.env.ENCRYPT_KEY, {
+          expiresIn: 604800
+        })
+
+        res.json({ success: true, token })
+      } else {
+        res.status(403).json({
+          success: false,
+          message: 'Authentication failed, wrong password !'
+        })
+      }
+    }
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message })
+  }
+})
+
 
 module.exports = router
