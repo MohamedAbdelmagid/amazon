@@ -49,6 +49,29 @@ router.get('/auth/user', verifyToken, async (req, res) => {
   }
 })
 
+// Update account route
+router.put('/auth/user', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.decoded._id },
+      {
+        $set: {
+          name: req.body.name,
+          email: req.body.email,
+        }
+      }
+    )
+
+    res.json({
+      success: true,
+      message: 'Successfully updated !'
+    })
+
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message })
+  }
+})
+
 // Login route
 router.post('/auth/login', async (req, res) => {
   try {
