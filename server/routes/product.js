@@ -26,7 +26,10 @@ router.post('/products', async (req, res) => {
 // Get all products endpoint
 router.get('/products', async (req, res) => {
   try {
-    const products = await Product.find().populate('owner category').exec()
+    const products = await Product.find()
+      .populate('owner category')
+      .populate('reviews', 'rating')
+      .exec()
 
     res.json({ success: true, products })
 
@@ -38,7 +41,10 @@ router.get('/products', async (req, res) => {
 // Get a particular product endpoint
 router.get('/products/:id', async (req, res) => {
   try {
-    const product = await Product.findOne({ _id: req.params.id }).populate('owner category').exec()
+    const product = await Product.findOne({ _id: req.params.id })
+      .populate('owner category')
+      .populate('reviews', 'rating')
+      .exec()
 
     res.json({ success: true, product })
 
