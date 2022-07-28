@@ -30,6 +30,7 @@ app.use('/api', ownerRoutes)
 app.use('/api', authRoutes)
 app.use('/api', reviewRoutes)
 app.use('/api', addressRoutes)
+app.use('/api', generalRoutes)
 
 mongoose.connect(process.env.LOCAL_DB_URI, { useUnifiedTopology: false }, err => {
   if (err) console.log(err)

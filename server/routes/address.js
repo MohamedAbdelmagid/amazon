@@ -5,7 +5,7 @@ const Address = require('../models/address')
 const verifyToken = require('../middlewares/verify-token')
 
 
-// Add new category endpoint
+// Add new address endpoint
 router.post('/addresses', verifyToken, async (req, res) => {
   try {
     const address = new Address()
