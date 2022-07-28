@@ -10,6 +10,8 @@ const categoryRoutes = require('./routes/category')
 const ownerRoutes = require('./routes/owner')
 const authRoutes = require('./routes/auth')
 const reviewRoutes = require('./routes/review')
+const addressRoutes = require('./routes/address')
+const generalRoutes = require('./routes/general')
 
 dotenv.config()
 const app = express()
@@ -27,6 +29,7 @@ app.use('/api', categoryRoutes)
 app.use('/api', ownerRoutes)
 app.use('/api', authRoutes)
 app.use('/api', reviewRoutes)
+app.use('/api', addressRoutes)
 
 mongoose.connect(process.env.LOCAL_DB_URI, { useUnifiedTopology: false }, err => {
   if (err) console.log(err)
