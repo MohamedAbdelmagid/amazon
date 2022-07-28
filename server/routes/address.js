@@ -93,4 +93,28 @@ router.delete('/addresses/:id', verifyToken, async (req, res) => {
   }
 })
 
+// Set default address for a user endpoint
+router.put('/addresses/default/:id', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.decoded._id },
+      {
+        $set: {
+          address: req.params.id
+        }
+      },
+      {
+        upsert: true, //  inserts a new document if no document matches 
+        new: true //  return the new updated document
+      }
+    )
+
+    res.json({ success: true, updated: user })
+
+  } catch (error) {
+    res.status(500).json({ success: false, error })
+  }
+})
+
+
 module.exports = router
